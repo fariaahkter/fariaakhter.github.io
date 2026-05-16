@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faria Akhter Firu – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --accent: #e85d26;
+    --accent2: #f5a623;
+    --text: #f0ece4;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(15,15,15,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--accent); letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--text); }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,93,38,0.12) 0%, transparent 70%); pointer-events: none; }
+  .hero-tag { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 480px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+  .btn { padding: 0.75rem 1.8rem; border-radius: 2px; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: all 0.3s; border: none; font-family: 'DM Sans', sans-serif; }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #d04e1e; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  section { padding: 5rem 3rem; max-width: 900px; margin: 0 auto; }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 2.5rem; line-height: 1.2; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-text { color: #bbb; font-size: 1rem; }
+  .about-text p { margin-bottom: 1rem; }
+  .about-stats { display: flex; flex-direction: column; gap: 1.5rem; }
+  .stat { border-left: 2px solid var(--accent); padding-left: 1.2rem; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .skill-card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; border-radius: 4px; transition: border-color 0.3s, transform 0.3s; }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-icon { font-size: 1.5rem; margin-bottom: 0.7rem; }
+  .skill-name { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .skill-desc { font-size: 0.8rem; color: var(--muted); }
+  .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+  .timeline-item { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); padding: 1.5rem; border-radius: 0 4px 4px 0; transition: border-color 0.3s; }
+  .timeline-item:hover { border-left-color: var(--accent2); }
+  .timeline-date { font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .timeline-title { font-weight: 500; font-size: 1rem; margin-bottom: 0.2rem; }
+  .timeline-sub { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.6rem; }
+  .timeline-desc { font-size: 0.85rem; color: #999; }
+  .research-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem; border-radius: 4px; position: relative; overflow: hidden; }
+  .research-card::before { content: '"'; position: absolute; top: -1rem; right: 1.5rem; font-family: 'Playfair Display', serif; font-size: 8rem; color: var(--accent); opacity: 0.08; line-height: 1; }
+  .research-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.8rem; }
+  .research-meta { font-size: 0.8rem; color: var(--accent); margin-bottom: 1rem; letter-spacing: 0.05em; }
+  .research-desc { font-size: 0.9rem; color: #999; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .contact-item { background: var(--surface); border: 1px solid var(--border); padding: 1.2rem 1.5rem; border-radius: 4px; display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--text); transition: border-color 0.3s, transform 0.3s; }
+  .contact-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .contact-icon { font-size: 1.3rem; }
+  .contact-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .contact-value { font-size: 0.9rem; }
+  footer { text-align: center; padding: 2rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0 3rem; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .divider { margin: 0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Faria Akhter Firu</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#research">Research</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Web Developer & Social Science Graduate</div>
+  <h1>Faria<br><span>Akhter</span><br>Firu</h1>
+  <p class="hero-sub">Building digital solutions for social good. Passionate about technology, gender justice, and digital equity.</p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn btn-primary">Get in Touch</a>
+    <a href="#skills" class="btn btn-outline">View Skills</a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<section id="about">
+  <div class="section-label">Who I Am</div>
+  <div class="section-title">About Me</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>A Sociology graduate with hands-on training in Web Designing and Development using PHP & Laravel from PeopleNTech Institute. I have foundational knowledge of MS Office, Google Sheets, basic AI tools, and web technologies.</p>
+      <p>I am passionate about using digital skills for social good and committed to contributing to a tech-driven development environment. I am a quick learner, eager to grow in the ICT sector.</p>
+      <p>Currently seeking opportunities to contribute meaningfully as a web developer and digital solutions professional.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">8mo</div>
+        <div class="stat-label">Web Development Diploma</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Trainings & Workshops</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">University Club Roles</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="skills">
+  <div class="section-label">What I Know</div>
+  <div class="section-title">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-name">Web Development</div>
+      <div class="skill-desc">PHP, Laravel, HTML, CSS – PeopleNTech Diploma</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💻</div>
+      <div class="skill-name">MS Office Suite</div>
+      <div class="skill-desc">Word, Excel, PowerPoint, Access</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">Data Tools</div>
+      <div class="skill-desc">Google Sheets, Power BI, SPSS, KoboToolBox (Basic)</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-name">AI Tools</div>
+      <div class="skill-desc">Basic AI tools for productivity and content</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🏷️</div>
+      <div class="skill-name">Data Annotating</div>
+      <div class="skill-desc">SuperAnnotate, Acme AI LTD – Bootcamp 2026</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📱</div>
+      <div class="skill-name">Social Media</div>
+      <div class="skill-desc">Content management & digital communication</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🔬</div>
+      <div class="skill-name">Research</div>
+      <div class="skill-desc">Qualitative & Quantitative methods, Literature Review (Basic)</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📝</div>
+      <div class="skill-name">Report Writing</div>
+      <div class="skill-desc">Bengali & English, Documentation Support</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="education">
+  <div class="section-label">Background</div>
+  <div class="section-title">Education & Training</div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Sept 2025 – Present</div>
+      <div class="timeline-title">Professional Diploma in Web Designing & Development (PHP & Laravel)</div>
+      <div class="timeline-sub">PeopleNTech: Professional IT Training Institute, Dhaka</div>
+      <div class="timeline-desc">Hands-on training in web design, PHP, Laravel, database management, and development practices.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">May 2025 – Aug 2025</div>
+      <div class="timeline-title">Computer Fundamentals</div>
+      <div class="timeline-sub">PeopleNTech: Professional IT Training Institute</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Sept 2024 – Nov 2024</div>
+      <div class="timeline-title">Freelancing with Data Entry</div>
+      <div class="timeline-sub">EDGE Program – Bangladesh Computer Council (BCC), ICT Division</div>
+      <div class="timeline-desc">Training under Enhancing Digital Government and Economy (EDGE) project, Dept. of CSE, GSTU.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2026</div>
+      <div class="timeline-title">Daylong Bootcamp Workshop on Data Annotating</div>
+      <div class="timeline-sub">SuperAnnotate, Acme AI LTD</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Jan 2020 – May 2025</div>
+      <div class="timeline-title">Bachelor of Social Science (Honours) in Sociology</div>
+      <div class="timeline-sub">Gopalganj Science and Technology University | CGPA: 3.13</div>
+      <div class="timeline-desc">Studied gender theory, environmental sociology, political sociology, and research methods. Completed quantitative research monograph on female students' mental health.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">June 2016 – April 2018</div>
+      <div class="timeline-title">Higher Secondary Certificate (HSC) – Science</div>
+      <div class="timeline-sub">Bulbul Govt. College, Pabna</div>
+      <div class="timeline-desc">Studied Physics, Chemistry, Biology and ICT — building an early foundation in scientific reasoning and technology concepts.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="research">
+  <div class="section-label">Academic Work</div>
+  <div class="section-title">Research</div>
+  <div class="research-card">
+    <div class="research-meta">Quantitative Research · Unpublished · 2025</div>
+    <div class="research-title">"Academic Examination and its Impact on the Mental Health of Female Students: A Study at GSTU, Gopalganj"</div>
+    <div class="research-desc">A quantitative study examining how academic examination systems disproportionately affect female students at GSTU, Gopalganj, exploring structural and gender-based barriers within institutional education. Presented findings through structured academic presentations.</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section>
+  <div class="section-label">Leadership</div>
+  <div class="section-title">Involvement</div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">2023 – 2024</div>
+      <div class="timeline-title">Assistant Office Secretary</div>
+      <div class="timeline-sub">GSTU Research and Higher Studies Club</div>
+      <div class="timeline-desc">Organized academic events, maintained records, and provided administrative support.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2023 – 2024</div>
+      <div class="timeline-title">Executive Member</div>
+      <div class="timeline-sub">GSTU Career Club</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2022 – 2023</div>
+      <div class="timeline-title">Executive Member</div>
+      <div class="timeline-sub">Speak Up, GSTU</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="contact">
+  <div class="section-label">Let's Connect</div>
+  <div class="section-title">Contact</div>
+  <div class="contact-grid">
+    <a href="mailto:farihaakter605@gmail.com" class="contact-item">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">Email</div>
+        <div class="contact-value">farihaakter605@gmail.com</div>
+      </div>
+    </a>
+    <a href="tel:01996754439" class="contact-item">
+      <div class="contact-icon">📞</div>
+      <div>
+        <div class="contact-label">Phone</div>
+        <div class="contact-value">01996754439</div>
+      </div>
+    </a>
+    <a href="https://www.linkedin.com/in/faria-akhter-7918671ba" target="_blank" class="contact-item">
+      <div class="contact-icon">💼</div>
+      <div>
+        <div class="contact-label">LinkedIn</div>
+        <div class="contact-value">faria-akhter</div>
+      </div>
+    </a>
+    <a href="https://github.com/fariaakhter" target="_blank" class="contact-item">
+      <div class="contact-icon">🐙</div>
+      <div>
+        <div class="contact-label">GitHub</div>
+        <div class="contact-value">github.com/fariaakhter</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Faria Akhter Firu · Built with HTML & CSS</p>
+</footer>
+
+</body>
+</html>
